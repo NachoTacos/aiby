@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcripción de Voz</title>
+    <style>
+        .card {
+            width: 300px;
+            padding: 20px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .transcription {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Transcripción:</h2>
+        <p id="transcription-text" class="transcription">La transcripción aparecerá aquí...</p>
+    </div>
+
+    <button id="transcribe-btn">Obtener Transcripción</button>
+
+    <script>
+        const button = document.getElementById('transcribe-btn');
+        button.addEventListener('click', function() {
+            fetch('/transcribe', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.transcription) {
+                    document.getElementById('transcription-text').innerText = data.transcription;
+                } else {
+                    alert('Error al transcribir: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un problema al procesar la transcripción.');
+            });
+        });
+    </script>
+</body>
+</html>
