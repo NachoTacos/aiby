@@ -1,10 +1,12 @@
 import re
 from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
-
+load_dotenv()
 
 client = OpenAI(
-api_key="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"
+api_key = os.getenv("api_key")
 )
 
 
@@ -42,7 +44,7 @@ def mock_exam(client, message):
 # Function to get the response from my pal chatsito botsito
 
 
-def code_completion_chat(client, message ):
+def code_completion_chat(client, message):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
@@ -92,7 +94,8 @@ def text_to_speech(client, message):
         print(f"Error: {e}")
 
 
-message = code_completion_chat(client)
+with open('transcriptexample.txt', encoding='utf-8') as message: message = message.read()
+code_completion_chat(client, message)
 transcription = speech_to_text(client)
 text_to_speech(client, message)
 var1, var2, var3 = split_response(message)
